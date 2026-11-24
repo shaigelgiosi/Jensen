@@ -182,11 +182,11 @@ int main() {
             printf("The code has been exited.\n");
             break;
         } 
-        // Complete the code logic: when an invalid command is entered, output “Invalid order, ” and then a newline
+        // Complete the code logic: when an invalid command is entered, output “Invalid order, Please input again.” and then a newline
         // TODO:
         else
         {
-            printf("无效命令，请重新输入。\n");
+            printf("Invalid order, Please input again.\n");
         }
     }
 
