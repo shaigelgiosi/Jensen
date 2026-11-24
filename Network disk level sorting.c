@@ -78,11 +78,11 @@ void request(Queue* q, const char* name, int level) {
 // Parameter: q - the queue
 void download(Queue* q) {
     if (q->front == NULL) {
-        printf("队列为空，没有可下载的任务。\n");
+        printf("The line is empty,we don't have task to download.\n");
         return;
     }
     Node* temp = q->front;
-    printf("下载中：%s (level=%d)\n", temp->name, temp->level);
+    printf("Downloading:%s (level=%d)\n", temp->name, temp->level);
     // Remove the front element
     q->front = temp->next;
     if (q->front == NULL) {
@@ -95,7 +95,7 @@ void download(Queue* q) {
 // Parameters: q - the queue, name - the username
 void removeUser(Queue* q, const char* name) {
     if (q->front == NULL) {
-        printf("队列为空，无法删除。\n");
+        printf("The line is empty so we can't delete it.\n");
         return;
     }
     Node* prev = NULL;
@@ -106,7 +106,7 @@ void removeUser(Queue* q, const char* name) {
         curr = curr->next;
     }
     if (curr == NULL) {
-        printf("未找到用户：%s\n", name);
+        printf("We don't find the user:%s\n", name);
         return;
     }
     // Delete the specified user; make sure to handle the head and tail cases
@@ -124,20 +124,20 @@ void removeUser(Queue* q, const char* name) {
             q->rear = prev;
     }
     free(curr);
-    printf("已删除用户：%s\n", name);
+    printf("The user has been deleted:%s\n", name);
 }
 
 // Display operation: show the queue
 // Parameter: q - the queue
 void display(Queue* q) {
     if (q->front == NULL) {
-        printf("当前队列为空。\n");
+        printf("The line is empty.\n");
         return;
     }
     Node* curr = q->front;
-    printf("当前下载队列：\n");
+    printf("The line is downloading now:\n");
     while (curr != NULL) {
-        printf("用户名: %-10s | level: %d\n", curr->name, curr->level);
+        printf("User_name: %-10s | level: %d\n", curr->name, curr->level);
         // TODO: complete the remaining logic
         curr = curr->next;
     }
@@ -151,22 +151,22 @@ int main() {
     char command[50];
     char name[50];
     int level;
-    printf("=== 某度网盘下载调度系统 ===\n"); 
-    printf("支持命令：Request 用户名 level | Download | Remove 用户名 | Display | Exit\n");
-    printf("请输入命令：\n");
+    printf("=== Some network disk level sorting design ===\n"); 
+    printf("Supported order：Request User_name level | Download | Remove User_name | Display | Exit\n");
+    printf("Please input the order:\n");
     while (1) {
         scanf("%s", command);
         if (strcmp(command, "Request") == 0) {
             scanf("%s %d", name, &level);
-            // Complete the user level validation: when an invalid level is entered, output “无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。” and then a newline.
+            // Complete the user level validation: when an invalid level is entered, output “Invalid user level, please input 1(common) 2(VIP) 3(SVIP).” and then a newline.
             // TODO:
             if(level < 1 || level > 3)
             {
-                printf("无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。\n");
+                printf("Invalid user level, please input 1(common) 2(VIP) 3(SVIP).\n");
                 continue;
             }
             request(&q, name, level);
-            printf("用户 %s (level=%d) 已加入队列。\n", name, level);
+            printf("User %s (level=%d) has get in the line.\n", name, level);
 
         } else if (strcmp(command, "Download") == 0) {
             download(&q);
@@ -179,10 +179,10 @@ int main() {
             display(&q);
 
         } else if (strcmp(command, "Exit") == 0) {
-            printf("程序已退出。\n");
+            printf("The code has been exited.\n");
             break;
         } 
-        // Complete the code logic: when an invalid command is entered, output “无效命令，请重新输入。” and then a newline
+        // Complete the code logic: when an invalid command is entered, output “Invalid order, ” and then a newline
         // TODO:
         else
         {
