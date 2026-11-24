@@ -2,28 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 用户节点定义
+// User node definition
 typedef struct Node {
     char name[50];
-    int level; // 1=普通, 2=VIP, 3=SVIP
+    int level; // 1=Normal, 2=VIP, 3=SVIP
     struct Node* next;
 } Node;
 
-// 队列结构体
+// Queue structure
 typedef struct Queue {
     Node* front;
     Node* rear;
 } Queue;
 
-// 初始化队列
-// 参数：q-队列
+// Initialize the queue
+// Parameter: q - the queue
 void initQueue(Queue* q) {
-    // TODO：完成队列初始化代码，队头用front,队尾用rear表示
+    // TODO: complete the queue initialization; the head is front and the tail is rear
     q->front = NULL;
     q->rear = NULL;
 }
 
-// 创建节点
+// Create a node
 Node* createNode(const char* name, int level) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     strcpy(newNode->name, name);
@@ -32,29 +32,29 @@ Node* createNode(const char* name, int level) {
     return newNode;
 }
 
-// Request操作：入队（带优先级插入）
-// 参数：q-队列，name-用户名，level-等级
+// Request operation: enqueue (with priority-aware insertion)
+// Parameters: q - the queue, name - the username, level - the user level
 void request(Queue* q, const char* name, int level) {
     Node* newNode = createNode(name, level);
-    // 队列为空，直接加入
+    // If the queue is empty, add it directly
     if (q->front == NULL) {
-        // TODO：完成队列为空的逻辑
+        // TODO: complete the logic for the empty-queue case
         q->front = newNode;
         q->rear = newNode;
     }
-    // 插入逻辑：高等级插在低等级用户前面，同等级则排在后面
+    // Insertion rule: higher-level users are placed before lower-level ones; equal levels line up behind
     else
     {
         Node* prev = NULL;
         Node* curr = q->front;
 
-        // 跳过等级高于或等于新用户的节点
+        // Skip nodes whose level is higher than the new user's
         while (curr != NULL && curr->level > level) {
             prev = curr;
             curr = curr->next;
         }
 
-        // 跳过所有同等级节点，使新用户排在同等级用户后面
+        // Skip all nodes of the same level so the new user lines up behind them
         while (curr != NULL && curr->level == level) {
             prev = curr;
             curr = curr->next;
@@ -74,8 +74,8 @@ void request(Queue* q, const char* name, int level) {
     }
 }
 
-// Download操作：输出队首元素，并删除该元素
-// 参数：q-队列
+// Download operation: output the front element and remove it
+// Parameter: q - the queue
 void download(Queue* q) {
     if (q->front == NULL) {
         printf("队列为空，没有可下载的任务。\n");
@@ -83,7 +83,7 @@ void download(Queue* q) {
     }
     Node* temp = q->front;
     printf("下载中：%s (level=%d)\n", temp->name, temp->level);
-    // 删除队首元素
+    // Remove the front element
     q->front = temp->next;
     if (q->front == NULL) {
         q->rear = NULL;
@@ -91,8 +91,8 @@ void download(Queue* q) {
     free(temp);
 }
 
-// Remove操作：删除指定用户
-// 参数：q-队列，name-用户名
+// Remove operation: delete the specified user
+// Parameters: q - the queue, name - the username
 void removeUser(Queue* q, const char* name) {
     if (q->front == NULL) {
         printf("队列为空，无法删除。\n");
@@ -101,7 +101,7 @@ void removeUser(Queue* q, const char* name) {
     Node* prev = NULL;
     Node* curr = q->front;
     while (curr != NULL && strcmp(curr->name, name) != 0) {
-        // TODO：请完善寻找指定用户位置的逻辑
+        // TODO: complete the logic for locating the specified user
         prev = curr;
         curr = curr->next;
     }
@@ -109,8 +109,8 @@ void removeUser(Queue* q, const char* name) {
         printf("未找到用户：%s\n", name);
         return;
     }
-    // 删除指定用户，注意考虑队头和队尾的情况
-    // TODO：请完善该部分代码
+    // Delete the specified user; make sure to handle the head and tail cases
+    // TODO: complete this part
     if(prev == NULL)
     {
         q->front = curr->next;
@@ -127,8 +127,8 @@ void removeUser(Queue* q, const char* name) {
     printf("已删除用户：%s\n", name);
 }
 
-// Display操作：显示队列
-// 参数：q-队列
+// Display operation: show the queue
+// Parameter: q - the queue
 void display(Queue* q) {
     if (q->front == NULL) {
         printf("当前队列为空。\n");
@@ -138,12 +138,12 @@ void display(Queue* q) {
     printf("当前下载队列：\n");
     while (curr != NULL) {
         printf("用户名: %-10s | level: %d\n", curr->name, curr->level);
-        // TODO：请完善剩余代码逻辑
+        // TODO: complete the remaining logic
         curr = curr->next;
     }
 }
 
-// 主函数：模拟操作命令
+// Main function: simulate operation commands
 int main() {
     Queue q;
     initQueue(&q);
@@ -158,8 +158,8 @@ int main() {
         scanf("%s", command);
         if (strcmp(command, "Request") == 0) {
             scanf("%s %d", name, &level);
-            // 完善用户等级判断逻辑，当出现无效用户等级时，输出：“无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。”，然后换行。
-            // TODO：
+            // Complete the user level validation: when an invalid level is entered, output “无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。” and then a newline.
+            // TODO:
             if(level < 1 || level > 3)
             {
                 printf("无效的用户等级，请输入 1（普通） 2（VIP） 3（SVIP）。\n");
@@ -182,8 +182,8 @@ int main() {
             printf("程序已退出。\n");
             break;
         } 
-        // 完善代码逻辑，当输入无效命令时，请输出“无效命令，请重新输入。”，然后换行
-        // TODO：
+        // Complete the code logic: when an invalid command is entered, output “无效命令，请重新输入。” and then a newline
+        // TODO:
         else
         {
             printf("无效命令，请重新输入。\n");
